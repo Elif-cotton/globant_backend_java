@@ -1,6 +1,6 @@
 package Entidades;
 
-public class Operación {
+public class Operacion {
 
     private Double numero1;
     private Double numero2;
