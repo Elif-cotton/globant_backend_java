@@ -8,5 +8,24 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="Ej13-2Curso" />
+    <orderEntry type="module" module-name="Ej2AreaPerimetro" />
+    <orderEntry type="module" module-name="4JUnit3TaskManager" />
+    <orderEntry type="module" module-name="Ej10Arreglo" />
+    <orderEntry type="module" module-name="Ej12Persona" />
+    <orderEntry type="module" module-name="Ej14Telefono" />
+    <orderEntry type="module" module-name="Ej13Curso" />
+    <orderEntry type="module" module-name="Ej2ExtraPuntos" />
+    <orderEntry type="module" module-name="Ej5CuentaBancaria" />
+    <orderEntry type="module" module-name="Ej1MiLibro" />
+    <orderEntry type="module" module-name="Ej9Matematicas" />
+    <orderEntry type="module" module-name="Ej2ExtraRaices" />
+    <orderEntry type="module" module-name="Ej7Persona" />
+    <orderEntry type="module" module-name="1JUnitDiscountCalculator" />
+    <orderEntry type="module" module-name="Ej6Nespresso" />
+    <orderEntry type="module" module-name="Ej3Operacion" />
+    <orderEntry type="module" module-name="Ej4CrearRectangulo" />
+    <orderEntry type="module" module-name="5JUnitFechas" />
+    <orderEntry type="module" module-name="Ej8Cadena" />
   </component>
 </module>
