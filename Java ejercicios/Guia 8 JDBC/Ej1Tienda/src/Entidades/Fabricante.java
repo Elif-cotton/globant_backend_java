@@ -13,8 +13,8 @@ public class Fabricante {
     public Fabricante() {
     }
 
-    public Fabricante(int codigo, String nombre) {
-        this.codigo = codigo;
+    public Fabricante(String nombre) {
+       // this.codigo = codigo;
         this.nombre = nombre;
     }
 
@@ -36,7 +36,7 @@ public class Fabricante {
 
     @Override
     public String toString() {
-        return "Fabricante{" + "codigo=" + codigo + ", nombre=" + nombre + '}';
+        return "Fabricante{" + "código=" + codigo + ", nombre=" + nombre + '}';
     }
     
     
