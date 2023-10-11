@@ -3,6 +3,7 @@ package Servicio;
 
 import Entidades.Producto;
 import Persistencia.ProductoDAO;
+import java.sql.SQLException;
 //Las consultas a realizar sobre la BD son las siguientes:
 //1) Lista el nombre de todos los productos que hay en la tabla producto.
 //2) Listar por parámetro todos los productos
@@ -53,20 +54,28 @@ public class ProductoServicio {
     }
 
     //7) Ingresar un producto a la base de datos.
-    public void agregarProducto(String nombre, double precio) throws Exception {
+    public void agregarProducto(int codigo, String nombre, double precio, int codigoFabricante) throws Exception {
         
          try {
             //Validamos
             if (nombre == null || nombre.trim().isEmpty()) {
                 throw new Exception("Debe indicar el nombre del producto");
             }
-            if (precio <= 0.0) {
-                throw new Exception("El precio del producto debe ser mayor que cero");
+            
+            try {
+                
+                if (precio <= 0.0) {
+                    throw new Exception("El precio del producto debe ser mayor que cero");
+                }
+            } catch (NumberFormatException ex) {
+                throw new Exception("El precio no es un número válido");
             }
             //Creamos el fabricante
             Producto producto = new Producto();
+            producto.setCodigo(codigo);
             producto.setNombre(nombre);
             producto.setPrecio(precio);
+            producto.setCodigo_fabricante(codigoFabricante);
             
             dao.agregarProducto(producto);
             
@@ -77,17 +86,17 @@ public class ProductoServicio {
     }
     
     //8) Editar un producto con datos a elección.
-    public void modificarProducto(int codigo, String nombre2, String precio2) throws Exception {
+    public void modificarProducto(int codigo, String nombre2, double precio2) throws Exception {
         try {
             // Validar los valores de entrada
             if (nombre2 == null || nombre2.trim().isEmpty()) {
                 throw new Exception("Debe indicar el nombre del producto");
             }
 
-            double precio;
+            
             try {
-                precio = Double.parseDouble(precio2);
-                if (precio <= 0.0) {
+               
+                if (precio2 <= 0.0) {
                     throw new Exception("El precio del producto debe ser mayor que cero");
                 }
             } catch (NumberFormatException ex) {
@@ -98,7 +107,7 @@ public class ProductoServicio {
             Producto producto = new Producto();
             producto.setCodigo(codigo);
             producto.setNombre(nombre2);
-            producto.setPrecio(precio);
+            producto.setPrecio(precio2);
 
              // Llamar al método 'modificarProducto' del objeto 'dao' para modificar el producto en la base de datos
              dao.modificarProducto(producto);
@@ -109,7 +118,31 @@ public class ProductoServicio {
     }
     
     //9) Eliminar un producto por código.
+//    public void eliminarProducto(int codigoProducto) throws Exception {
+//        dao.eliminarProducto(codigoProducto);
+//    }
+    
     public void eliminarProducto(int codigoProducto) throws Exception {
+        try {
+             // Aquí puedes agregar validaciones antes de llamar al método de DAO
+            if (codigoProducto <= 0) {
+                throw new Exception("El código del producto debe ser un número mayor que cero.");
+        }
+            
+         // Validar si el producto existe antes de intentar eliminarlo
+        if (!dao.productoExiste(codigoProducto)) {
+            throw new Exception("El producto con el código " + codigoProducto + " no existe en la base de datos.");
+        }   
+        
         dao.eliminarProducto(codigoProducto);
+        } catch (SQLException e) {
+        // Capturar y manejar cualquier excepción de SQL
+            throw e;
+        } catch (Exception e) {
+        // Capturar y manejar excepciones generadas por las validaciones
+            throw e;
+         }
     }
+    
+    
 }

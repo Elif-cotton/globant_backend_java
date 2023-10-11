@@ -31,6 +31,7 @@ public class Ej1Tienda {
         FabricanteServicio fabricanteServicio = new FabricanteServicio();
         
         while (true) {
+            System.out.println("");
             System.out.println("1. Listar todos los productos");
             System.out.println("2. Listar por parámetro todos los productos");
             System.out.println("3. Listar nombres y precios de todos los productos");
@@ -40,7 +41,7 @@ public class Ej1Tienda {
             System.out.println("7. Agregar producto");
             System.out.println("8. Editar un producto");
             System.out.println("9. Eliminar un producto");
-            System.out.println("10. Ingresar un Fabricante");
+            System.out.println("10. Agregar un Fabricante");
             System.out.println("11. Salir");
 
             System.out.println("Por favor, selecciona una opción: ");
@@ -89,27 +90,25 @@ public class Ej1Tienda {
                     productoServicio.obtenerProductoMasBarato();
                     break;
                 case 7:
+                    System.out.println("Ingrese el código del producto a agregar");
+                    int codigo = leer.nextInt();
                     System.out.println("Ingrese el nombre del producto");
                     String nombre = leer.next();
                     System.out.println("Ingrese el precio del producto");
-                    Double precio = leer.nextDouble();
-//                    System.out.println("Ingrese el código del fabricante");
-//                    int fabricante = leer.nextInt();
-                    //Producto nuevoProducto = new Producto(nombre, precio);
-                    productoServicio.agregarProducto(nombre,precio);
+                    double precio = leer.nextDouble();
+                    System.out.println("Ingrese el código del fabricante");
+                    int fabricante = leer.nextInt();
+                    productoServicio.agregarProducto(codigo,nombre,precio,fabricante);
                     break;
                 case 8:
                     try {
                         System.out.println("Ingrese el código del producto que desea modificar");
-                        int codigo = leer.nextInt();
+                        int codigo2 = leer.nextInt();
                         System.out.println("Ingrese el nombre del producto");
                         String nombre2 = leer.next();
                         System.out.println("Ingrese el precio del producto");
-                        Double precio2 = leer.nextDouble();
-//                        System.out.println("Ingrese el código del fabricante");
-//                        int fabricante2 = leer.nextInt();
-                        //Producto productoAModificar = new Producto(codigo, nombre2, precio2);
-                        productoServicio.modificarProducto(codigo, nombre2, nombre2);
+                        double precio2 = leer.nextDouble();
+                        productoServicio.modificarProducto(codigo2, nombre2, precio2);
                        
                     } catch (Exception e) {
                         System.out.println("No se pudo cargar uno de los datos");
@@ -121,12 +120,11 @@ public class Ej1Tienda {
                     productoServicio.eliminarProducto(codigoEliminar);
                     break;
                 case 10:
+                    System.out.println("Ingrese el código del fabricante");
+                    int codigoFabricante = leer.nextInt();
                     System.out.println("Ingrese el nombre del fabricante");
                     String nombreFabricante = leer.next();
-//                    System.out.println("Ingrese el código del fabricante");
-//                    int codigoFabricante = leer.nextInt();
-                    Fabricante nuevoFabricante = new Fabricante(nombreFabricante);
-                    fabricanteServicio.agregarFabricante(nombreFabricante);
+                    fabricanteServicio.agregarFabricante(codigoFabricante, nombreFabricante);
                     break;
                 case 11:
                     System.out.println("Adiós!");

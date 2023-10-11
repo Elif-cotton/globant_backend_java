@@ -5,6 +5,8 @@ package Persistencia;
 
 import Entidades.Producto;
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 
 //1) Lista el nombre de todos los productos que hay en la tabla producto.
@@ -137,26 +139,47 @@ public final class ProductoDAO extends DAO {
     //7) Ingresar un producto a la base de datos.
     public void agregarProducto(Producto producto) throws Exception {
         try {
-            String sql = "INSERT INTO producto (nombre, precio, codigo_fabricante) VALUES ("
-                    + "'" + producto.getNombre() + "',"
-                    + producto.getPrecio() + ","
-                    + producto.getCodigoFabricante() + ")";
-
+            String sql = "INSERT INTO producto (nombre, precio)" 
+                    + "VALUES ( '"+ producto.getCodigo() 
+                    + "' , '" + producto.getNombre() 
+                    + "' , '" + producto.getPrecio()
+                    + "' , '" + producto.getCodigoFabricante()+  "' );"; 
+                    
             insertarModificarEliminar(sql);
-        } catch (MySQLIntegrityConstraintViolationException e) {
-            // Capturar una excepción específica para la violación de restricción de integridad
-            System.out.println("Error: El código de fabricante no existe en la base de datos. Por favor, introduce un código de fabricante válido.");
+            
         } catch (Exception e) {
             throw e;
         }
     }
+      
+    //otra forma de agregar productos
+//        public void agregarProducto(Producto producto) throws Exception {
+//            try {
+//                String sql = "INSERT INTO producto (codigo, nombre, precio, codigo_fabricante) "
+//                        + "VALUES (?, ?, ?, ?)";
+//        
+//                conectarBase();
+//                PreparedStatement preparedStatement = conexion.prepareStatement(sql);
+//                preparedStatement.setInt(1, producto.getCodigo());
+//                preparedStatement.setString(2, producto.getNombre());
+//                preparedStatement.setDouble(3, producto.getPrecio());
+//                preparedStatement.setInt(4, producto.getCodigoFabricante());
+//        
+//                 preparedStatement.executeUpdate();
+//            } catch (SQLException e) {
+//             // Capturar y manejar cualquier excepción de SQL
+//                    throw e;
+//             } finally {
+//                desconectarBase();
+//            }
+//        }
     
     //8) Editar un producto con datos a elección.
     public void modificarProducto(Producto producto) throws Exception {
         try {
             String sql = "UPDATE producto SET nombre='" + producto.getNombre()
                     + "', precio=" + producto.getPrecio()
-                    + ", codigo_fabricante=" + producto.getCodigoFabricante()
+                    //+ ", codigo_fabricante=" + producto.getCodigoFabricante()
                     + " WHERE codigo=" + producto.getCodigo();
             insertarModificarEliminar(sql);
             
@@ -175,6 +198,26 @@ public final class ProductoDAO extends DAO {
         } catch (Exception e) {
             throw e;
         }
+    }
+    
+      // Método para verificar si un producto existe en la base de datos
+    public boolean productoExiste(int codigoProducto) throws SQLException, Exception {
+        // Realiza una consulta a la base de datos para verificar si el producto existe
+         String sql = "SELECT COUNT(*) FROM producto WHERE codigo = " + codigoProducto;
+            conectarBase();
+    
+        try {
+            sentencia = conexion.createStatement();
+            resultado = sentencia.executeQuery(sql);
+            if (resultado.next()) {
+                int count = resultado.getInt(1);
+                return count > 0;
+             }
+        } finally {
+             desconectarBase();
+         }
+    
+         return false;
     }
     
 }

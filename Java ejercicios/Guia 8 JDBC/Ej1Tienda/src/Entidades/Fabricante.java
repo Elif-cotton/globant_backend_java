@@ -13,7 +13,8 @@ public class Fabricante {
     public Fabricante() {
     }
 
-    public Fabricante(String nombre) {
+    public Fabricante(int codigo, String nombre) {
+        this.codigo = codigo;
         this.nombre = nombre;
     }
 
@@ -38,9 +39,5 @@ public class Fabricante {
         return "Fabricante{" + "código=" + codigo + ", nombre=" + nombre + '}';
     }
 
-    public Object trim() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    
+  
 }

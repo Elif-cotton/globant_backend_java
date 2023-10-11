@@ -14,14 +14,14 @@ import java.sql.Statement;
  */
 public abstract class DAO {
     
-    protected Connection conexion=null;
-    protected ResultSet resultado=null;
-    protected Statement sentencia=null;
+    protected Connection conexion;
+    protected ResultSet resultado;
+    protected Statement sentencia;
     
     private final String USER = "root";
     private final String PASSWORD = "root";
     private final String DATABASE = "tienda";
-    private final String DRIVER = "com.mysql.cj.jdbc.Driver";   //tipo de conector 
+    private final String DRIVER = "com.mysql.jdbc.Driver";   //tipo de conector 
     
     //métodos para los hijos
     protected void conectarBase() throws ClassNotFoundException, SQLException {
@@ -58,7 +58,7 @@ public abstract class DAO {
             sentencia.executeUpdate(sql);
             //Acá estamos diciendo que esta sentencia, va a usar la consulta SQL que tiene por parámetro
             //INSERT INTO ....... ETC
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {  //ClassNotFoundException |
             throw e;
         } finally {
             desconectarBase();

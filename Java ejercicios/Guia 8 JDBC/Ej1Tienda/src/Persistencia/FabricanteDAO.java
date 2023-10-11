@@ -16,14 +16,17 @@ public final class FabricanteDAO extends DAO{
             if(fabricante==null){
                throw new Exception ("Debe indicar un fabricante");
             }
-            String sql= "INSERT INTO fabricante (nombre) VALUES ("
-                    + "'" + fabricante.getNombre() + ")";      //DUDA AGREGAR CODIGO
-
-            insertarModificarEliminar(sql);
+            String sql= "INSERT INTO fabricante (codigo, nombre)" 
+                    + "VALUES ( '" + fabricante.getCodigo() 
+                    + "' , '" + fabricante.getNombre() + "' );";      
             
+            insertarModificarEliminar(sql);
+            desconectarBase();
         }catch (Exception e){
             throw e;
             
+        }finally {
+            desconectarBase();
         }
     }
 }

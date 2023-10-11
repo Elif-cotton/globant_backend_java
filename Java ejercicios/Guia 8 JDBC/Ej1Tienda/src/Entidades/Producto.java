@@ -16,15 +16,10 @@ public class Producto {
     }
 
     public Producto(int codigo, String nombre, double precio, int codigoFabricante) {
-        //this.codigo = codigo;
+        this.codigo = codigo;
         this.nombre = nombre;
         this.precio = precio;
         this.codigoFabricante = codigoFabricante;
-    }
-
-    public Producto(String nombre, double precio) {
-        this.nombre = nombre;
-        this.precio = precio;
     }
 
     public Producto(int codigo, String nombre, double precio) {
