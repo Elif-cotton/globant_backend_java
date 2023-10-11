@@ -10,7 +10,7 @@ public class Producto {
     private int codigo;
     private String nombre;
     private double precio;
-    private int codigoFabricante;
+    private int codigoFabricante;  
 
     public Producto() {
     }
@@ -22,12 +22,16 @@ public class Producto {
         this.codigoFabricante = codigoFabricante;
     }
 
-    public Producto(String nombre, double precio, int codigoFabricante) {
+    public Producto(String nombre, double precio) {
         this.nombre = nombre;
         this.precio = precio;
-        this.codigoFabricante = codigoFabricante;
     }
-    
+
+    public Producto(int codigo, String nombre, double precio) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.precio = precio;
+    }
     
 
     public int getCodigo() {

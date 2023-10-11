@@ -11,6 +11,7 @@ import Entidades.Fabricante;
 public final class FabricanteDAO extends DAO{
     
     public void agregarFabricante(Fabricante fabricante) throws Exception{
+        
         try{
             if(fabricante==null){
                throw new Exception ("Debe indicar un fabricante");

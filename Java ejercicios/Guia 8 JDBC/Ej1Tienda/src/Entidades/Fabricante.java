@@ -14,7 +14,6 @@ public class Fabricante {
     }
 
     public Fabricante(String nombre) {
-       // this.codigo = codigo;
         this.nombre = nombre;
     }
 
@@ -37,6 +36,10 @@ public class Fabricante {
     @Override
     public String toString() {
         return "Fabricante{" + "código=" + codigo + ", nombre=" + nombre + '}';
+    }
+
+    public Object trim() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     
