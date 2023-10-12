@@ -10,14 +10,14 @@ import Persistencia.FabricanteDAO;
  */
 public class FabricanteServicio {
     
-     private FabricanteDAO dao;
+    private FabricanteDAO dao;
 
     public FabricanteServicio() {
         this.dao = new FabricanteDAO();
     }
     
 //10) Ingresar un fabricante a la base de datos
-    public void agregarFabricante(int codigo, String nombre) throws Exception {
+    public void agregarFabricante(String nombre) throws Exception {
          try {
             //Validamos
             if (nombre == null || nombre.trim().isEmpty()) {
@@ -26,7 +26,6 @@ public class FabricanteServicio {
             
             //Creamos el fabricante
             Fabricante fabricante = new Fabricante();
-            fabricante.setCodigo(codigo);
             fabricante.setNombre(nombre);
             
             dao.agregarFabricante(fabricante);
@@ -35,6 +34,5 @@ public class FabricanteServicio {
             throw e;
         }
     }
-    
     
 }

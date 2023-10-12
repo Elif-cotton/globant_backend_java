@@ -90,15 +90,13 @@ public class Ej1Tienda {
                     productoServicio.obtenerProductoMasBarato();
                     break;
                 case 7:
-                    System.out.println("Ingrese el código del producto a agregar");
-                    int codigo = leer.nextInt();
                     System.out.println("Ingrese el nombre del producto");
                     String nombre = leer.next();
                     System.out.println("Ingrese el precio del producto");
                     double precio = leer.nextDouble();
                     System.out.println("Ingrese el código del fabricante");
-                    int fabricante = leer.nextInt();
-                    productoServicio.agregarProducto(codigo,nombre,precio,fabricante);
+                    int codigoFab = leer.nextInt();            
+                    productoServicio.agregarProducto(nombre,precio,codigoFab);
                     break;
                 case 8:
                     try {
@@ -108,7 +106,9 @@ public class Ej1Tienda {
                         String nombre2 = leer.next();
                         System.out.println("Ingrese el precio del producto");
                         double precio2 = leer.nextDouble();
-                        productoServicio.modificarProducto(codigo2, nombre2, precio2);
+                        System.out.println("Ingrese el código del fabricante a modificar");
+                        int codigoFabri = leer.nextInt();
+                        productoServicio.modificarProducto(codigo2, nombre2, precio2, codigoFabri);
                        
                     } catch (Exception e) {
                         System.out.println("No se pudo cargar uno de los datos");
@@ -120,11 +120,9 @@ public class Ej1Tienda {
                     productoServicio.eliminarProducto(codigoEliminar);
                     break;
                 case 10:
-                    System.out.println("Ingrese el código del fabricante");
-                    int codigoFabricante = leer.nextInt();
                     System.out.println("Ingrese el nombre del fabricante");
                     String nombreFabricante = leer.next();
-                    fabricanteServicio.agregarFabricante(codigoFabricante, nombreFabricante);
+                    fabricanteServicio.agregarFabricante (nombreFabricante);
                     break;
                 case 11:
                     System.out.println("Adiós!");

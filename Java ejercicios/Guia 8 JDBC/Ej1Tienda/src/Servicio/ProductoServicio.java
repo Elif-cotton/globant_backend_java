@@ -2,6 +2,7 @@
 package Servicio;
 
 import Entidades.Producto;
+import Persistencia.FabricanteDAO;
 import Persistencia.ProductoDAO;
 import java.sql.SQLException;
 //Las consultas a realizar sobre la BD son las siguientes:
@@ -25,7 +26,7 @@ public class ProductoServicio {
     public ProductoServicio() {
         this.dao = new ProductoDAO();
     }
-    
+   
     //1) Lista el nombre de todos los productos que hay en la tabla producto.
      public void selectAll() throws Exception {
           dao.selectAll();
@@ -54,25 +55,26 @@ public class ProductoServicio {
     }
 
     //7) Ingresar un producto a la base de datos.
-    public void agregarProducto(int codigo, String nombre, double precio, int codigoFabricante) throws Exception {
+    public void agregarProducto(String nombre, double precio, int codigoFabricante) throws Exception {
         
-         try {
+        try {
             //Validamos
+           
             if (nombre == null || nombre.trim().isEmpty()) {
                 throw new Exception("Debe indicar el nombre del producto");
             }
-            
-            try {
-                
-                if (precio <= 0.0) {
-                    throw new Exception("El precio del producto debe ser mayor que cero");
-                }
-            } catch (NumberFormatException ex) {
-                throw new Exception("El precio no es un número válido");
+            if (precio <= 0.0) {
+                 throw new Exception("El precio del producto debe ser mayor que cero");
             }
+            FabricanteDAO daoF= new FabricanteDAO();
+            // Verificar si el código de fabricante existe
+            if (!daoF.fabricanteExiste(codigoFabricante)) {
+             // El código de fabricante no existe, agreguémoslo
+                throw new Exception("El código del fabricante " + codigoFabricante + " no existe en la base de datos debe agregarlo primero antes de continuar");  
+            }
+       
             //Creamos el fabricante
             Producto producto = new Producto();
-            producto.setCodigo(codigo);
             producto.setNombre(nombre);
             producto.setPrecio(precio);
             producto.setCodigo_fabricante(codigoFabricante);
@@ -86,7 +88,7 @@ public class ProductoServicio {
     }
     
     //8) Editar un producto con datos a elección.
-    public void modificarProducto(int codigo, String nombre2, double precio2) throws Exception {
+    public void modificarProducto(int codigo, String nombre2, double precio2, int codigoFab) throws Exception {
         try {
             // Validar los valores de entrada
             if (nombre2 == null || nombre2.trim().isEmpty()) {
@@ -108,6 +110,7 @@ public class ProductoServicio {
             producto.setCodigo(codigo);
             producto.setNombre(nombre2);
             producto.setPrecio(precio2);
+            producto.setCodigo_fabricante(codigoFab);
 
              // Llamar al método 'modificarProducto' del objeto 'dao' para modificar el producto en la base de datos
              dao.modificarProducto(producto);
@@ -117,11 +120,7 @@ public class ProductoServicio {
         }
     }
     
-    //9) Eliminar un producto por código.
-//    public void eliminarProducto(int codigoProducto) throws Exception {
-//        dao.eliminarProducto(codigoProducto);
-//    }
-    
+    //9) Eliminar un producto por código. 
     public void eliminarProducto(int codigoProducto) throws Exception {
         try {
              // Aquí puedes agregar validaciones antes de llamar al método de DAO

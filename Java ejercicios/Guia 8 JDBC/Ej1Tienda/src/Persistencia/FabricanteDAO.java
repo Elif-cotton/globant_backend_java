@@ -3,6 +3,7 @@ package Persistencia;
 //10) Ingresar un fabricante a la base de datos
 
 import Entidades.Fabricante;
+import java.sql.SQLException;
 
 /**
  *
@@ -28,5 +29,25 @@ public final class FabricanteDAO extends DAO{
         }finally {
             desconectarBase();
         }
+    }
+   
+    
+    public boolean fabricanteExiste(int codigoFab) throws SQLException, Exception {
+        // Realiza una consulta a la base de datos para verificar si el fabricante existe
+         String sql = "SELECT COUNT(*) FROM fabricante WHERE codigo = " + codigoFab;
+            conectarBase();
+    
+        try {
+            sentencia = conexion.createStatement();
+            resultado = sentencia.executeQuery(sql);
+            if (resultado.next()) {
+                int count = resultado.getInt(1);
+                return count > 0;
+             }
+        } finally {
+             desconectarBase();
+         }
+    
+         return false;
     }
 }
