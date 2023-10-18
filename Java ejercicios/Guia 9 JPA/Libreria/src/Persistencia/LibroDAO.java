@@ -5,10 +5,12 @@
  */
 package Persistencia;
 
+import Entidades.Libro;
+
 /**
  *
  * @author javer
  */
-public class LibroDAO {
+public class LibroDAO extends DAO <Libro> {
     
 }
