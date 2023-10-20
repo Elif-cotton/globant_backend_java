@@ -8,6 +8,7 @@ import javax.persistence.Persistence;
 /**
  *
  * @author javer
+ * @param <T>
  */
 public class DAO <T>{
     

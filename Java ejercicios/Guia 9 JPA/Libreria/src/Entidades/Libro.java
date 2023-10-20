@@ -2,42 +2,52 @@
 package Entidades;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author javer
  */
 @Entity
+@Table(name="libros")
 public class Libro implements Serializable {
     
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)  // id sea incremental, autogenerada e incrementa en 1
     private long isbn;
     
+    @Column(name="titulo_libro")
     private String titulo;
+    @Column(name="año_publicación")
     private Integer anio;
+    @Column(name="número_ejemplares")
     private Integer ejemplares;
+    @Column(name="libros_prestados")
     private Integer ejemplaresPrestados;
+    @Column(name="ejemplares_restantes")
     private Integer ejemplaresRestantes;
+    @Column(name="alta")
     private boolean alta;
     
     @ManyToOne     //relación muchos libros tiene un autor
+    @JoinColumn(name="id_autor")  //nombre de la columna a relaciona esta tabla con la tabla autor
     private Autor autor;
      
     @ManyToOne
+    @JoinColumn(name="id_editorial")  //nombre de la columna a relaciona esta tabla con la tabla editorial
     private Editorial editorial;
 
     public Libro() {
     }
 
-    public Libro(String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados, 
-            Integer ejemplaresRestantes, boolean alta, Autor autor, Editorial editorial) {
+    public Libro(long isbn, String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, boolean alta, Autor autor, Editorial editorial) {
+        this.isbn = isbn;
         this.titulo = titulo;
         this.anio = anio;
         this.ejemplares = ejemplares;
@@ -48,11 +58,15 @@ public class Libro implements Serializable {
         this.editorial = editorial;
     }
 
+
     public long getIsbn() {
         return isbn;
     }
 
-
+    public void setIsbn(long isbn) {
+        this.isbn = isbn;
+    }
+    
     public String getTitulo() {
         return titulo;
     }

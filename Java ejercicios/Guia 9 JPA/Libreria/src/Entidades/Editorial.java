@@ -2,7 +2,6 @@
 package Entidades;
 
 import java.io.Serializable;
-import java.util.logging.Logger;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
