@@ -4,6 +4,8 @@ package Persistencia;
 import Entidades.Libro;
 import java.util.Collections;
 import java.util.List;
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -21,27 +23,16 @@ public class LibroDAO extends DAO <Libro> {
         super.editar(libro);
     }
     
-//    public void editar(long isbn) throws Exception {
-//        Libro libro = buscarPorId(isbn);
-//        super.editar(libro);
-//    }
+    @Override
+    public void eliminar(Libro libro) {
+        super.eliminar(libro);
+    }
     
      public void eliminar(String titulo) throws Exception {
         Libro libro = (Libro) buscarPorTitulo(titulo);
         super.editar(libro);
     }
-     
-//    public void eliminar(long isbn) throws Exception {
-//        Libro libro = buscarPorId(isbn);
-//        super.eliminar(libro);
-//    }
-//    
-//    public Libro buscarPorId(long isbn){
-//        conectar();
-//        Libro libro = (Libro) em.createQuery("SELECT l FROM Libro l WHERE l.isbn LIKE :id").setParameter("isbn", isbn).getSingleResult();
-//        desconectar();
-//        return libro;
-//    }
+
 
     public List<Libro> listarTodos() throws Exception {
         conectar();
@@ -100,5 +91,14 @@ public class LibroDAO extends DAO <Libro> {
         }
     }
     
-
+    public Libro buscarLibroPorIsbn(Long libroIsbn) {
+        try {
+            String jpql = "SELECT l FROM Libro l WHERE l.isbn = :libroIsbn";
+            TypedQuery<Libro> query = em.createQuery(jpql, Libro.class);
+            query.setParameter("libroIsbn", libroIsbn);
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null; // Si no se encuentra el libro, devuelve null
+        }
+    }
 }

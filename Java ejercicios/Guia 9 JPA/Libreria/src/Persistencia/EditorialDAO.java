@@ -3,6 +3,7 @@ package Persistencia;
 
 import Entidades.Editorial;
 import java.util.List;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
@@ -66,29 +67,39 @@ public class EditorialDAO extends DAO <Editorial>{
         return cantidad > 0;
     }
     
-//    public boolean existeEditorial(int id) {
-//        try {
-//            conectar();
-//            TypedQuery<Long> query = em.createQuery("SELECT COUNT(e) FROM Editorial e WHERE e.id = :id", Long.class);
-//            query.setParameter("id", id);
-//            Long count = query.getSingleResult();
-//            return count > 0;
-//        } finally {
-//            desconectar();
-//        }
-//    }
-
-    public boolean existeID(Integer id) {
+    public Editorial buscarEditorialPorId(Integer editorialId) {
         try {
-            conectar();
-            TypedQuery<Long> query = em.createQuery("SELECT COUNT(e) FROM Editorial e WHERE e.id = :id", Long.class);
-            query.setParameter("id", id);
-            Long count = query.getSingleResult();
-            return count > 0;
-        } finally {
-            desconectar();
+            String jpql = "SELECT e FROM Editorial e WHERE e.id = :editorialId";
+            TypedQuery<Editorial> query = em.createQuery(jpql, Editorial.class);
+            query.setParameter("editorialId", editorialId);
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null; // Si no se encuentra la editorial, devuelve null
         }
     }
     
-    
+    public Editorial buscarEditorialPorNombre(String nombre) {
+        try {
+            String jpql = "SELECT e FROM Editorial e WHERE e.nombre = :nombre";
+            TypedQuery<Editorial> query = em.createQuery(jpql, Editorial.class);
+            query.setParameter("nombre", nombre);
+            List<Editorial> resultados = query.getResultList();
+        
+            if (resultados.isEmpty()) {
+                return null; // Si no se encuentra la editorial, devuelve null
+            } else {
+                return resultados.get(0); // Devuelve el primer resultado si hay múltiples coincidencias
+            }
+        } catch (NoResultException e) {
+            return null; // Si no se encuentra la editorial, devuelve null
+        
+    }
+}
+
+
+
+
+
+
+
 }

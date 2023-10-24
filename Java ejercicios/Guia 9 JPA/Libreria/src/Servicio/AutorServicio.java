@@ -3,13 +3,14 @@ package Servicio;
 
 import Entidades.Autor;
 import Persistencia.AutorDAO;
-import java.util.List;
 import java.util.Scanner;
+import javax.persistence.PersistenceException;
+import java.util.List;
 
 /**
  *
  * @author javer
- * autores (consulta, creación, modificación y eliminación
+ * autores (consulta, creación, modificación y eliminación)
  */
 public class AutorServicio {
     
@@ -19,14 +20,31 @@ public class AutorServicio {
     
     public Autor crearAutor(){
         Autor autor=new Autor();
-        
-        System.out.println("Ingrese el nombre del autor");
-        String nombre=leer.next();
-        autor.setNombre(nombre);
-        autor.setAlta(true);
-        
-        dao.guardar(autor);
-        System.out.println("Autor ingresado exitosamente!");
+        try{
+            System.out.println("Ingrese el nombre del autor");
+            String nombre=leer.next();
+
+        // Verifica si el autor ya existe por nombre
+            Autor autorExistente = dao.buscarAutorPorNombre(nombre);
+
+            if (autorExistente != null) {
+            // Si ya existe, reemplaza el autor existente con la nueva información.
+                autorExistente.setNombre(nombre);
+                autorExistente.setAlta(true);
+                dao.editar(autorExistente); // Suponiendo que tienes un método para actualizar
+                System.out.println("El autor ha sido actualizada exitosamente!");
+                return autorExistente;
+            } else {
+                // Si no existe, crea una nueva editorial y guárdala.
+                autor.setNombre(nombre);
+                autor.setAlta(true);
+                dao.guardar(autor);
+                System.out.println("Editorial ingresada exitosamente!");
+            return autor;
+            }
+        } catch (PersistenceException e) {
+             System.err.println("Error al guardar o actualizar la editorial: " + e.getMessage());
+        }
         return autor;
     }
     
@@ -38,12 +56,20 @@ public class AutorServicio {
         dao.editar(autor);
     }
     
-     public List<Autor> buscarAutorNombre(){
+    public List<Autor> buscarAutorNombre(){
         System.out.println("Ingrese el nombre del autor que desea buscar");
         String nombre= leer.next();
         List<Autor> autores= dao.buscarPorNombre(nombre);
-        return autores;
         
+        if (autores.isEmpty()) {
+            System.out.println("No se encontraron autores con ese nombre.");
+        } else {
+            System.out.println("Autores encontrados:");
+            for (Autor autor : autores) {
+                System.out.println("ID: " + autor.getId() + ", Nombre: " + autor.getNombre());
+            }
+        }
+        return autores;
     }
      
     public void mostrarTodosLosAutores() {
@@ -91,18 +117,27 @@ public class AutorServicio {
         }
     }
     
-    public void eliminarAutorPorId() {
+    
+    public void eliminarAutorPorId(){
+         
         System.out.println("Ingrese el ID del autor que desea eliminar");
-        Integer autorId=leer.nextInt();
+        Integer id=leer.nextInt();
         
         try {
+              //Aquí puedes agregar validaciones antes de llamar al método de DAO
+            if (id <= 0) {
+                throw new Exception("El id del autor debe ser un número mayor que cero.");
+            }
             
-            if (!dao.existeID(autorId)) {
-                throw new Exception("El id del autor " + autorId + " no existe en la base de datos.");
-            }  
-            dao.eliminar(autorId);
+            Autor autor = dao.buscarAutorPorId(id);
+            if (autor != null) {
+                 dao.eliminar(autor);
+                 System.out.println("El autor fue eliminada con éxito!");
+            } else {
+                System.out.println("El autor no existe en la base de datos.");
+            }
         } catch (Exception e) {
-             System.err.println("Error al eliminar el autor: " + e.getMessage());
+            System.err.println("Error al eliminar el autor: " + e.getMessage());
         }
     }
 }

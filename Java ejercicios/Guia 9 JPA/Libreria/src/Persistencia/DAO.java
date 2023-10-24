@@ -63,19 +63,19 @@ public class DAO <T>{
     }
     
     protected void eliminar(T objeto){
-//        try{
+        try{
             conectar();
             em.getTransaction().begin();
             em.remove(objeto);
             em.getTransaction().commit();
-//        }catch (Exception e){
-//            System.out.println("No se pudo eliminar");
-//            if (em.getTransaction().isActive()){
-//                em.getTransaction().rollback();
-//            }
-//        }finally{
+        }catch (Exception e){
+            System.out.println("No se pudo eliminar");
+            if (em.getTransaction().isActive()){
+                em.getTransaction().rollback();
+           }
+        }finally{
            desconectar();
-//        }
+        }
     }
     
 }

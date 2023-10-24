@@ -159,17 +159,14 @@ public class LibroServicio {
         try {
             List<Libro> libros = dao.listarTodos();
             
-            int anchoTitulo = 30; // Ancho máximo de la columna de título
+            int anchoTitulo = 40; // Ancho máximo de la columna de título
             
             System.out.printf("%-6s %-4s %-10s %-15s %-10s %-15s %-"+anchoTitulo+"s%-15s %-15s\n",
-            "ISBN", "ALTA", "AÑO PUBLICACIÓN", "EJEMPLARES", "PRESTADOS", "RESTANTES",
+            "ISBN", "ALTA", "AÑO", "EJEMPLARES", "PRESTADOS", "RESTANTES",
             "TÍTULO LIBRO", "ID AUTOR", "ID EDITORIAL");
-            System.out.println("-----------------------------------------------------------------------------------------------------------------------");
+            System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------");
             for (Libro libro : libros) {
                 String titulo = libro.getTitulo();
-                if (titulo.length() > anchoTitulo) {
-                    titulo = titulo.substring(0, anchoTitulo - 3) + "..."; // Acortar títulos largos
-                }
                 System.out.printf("%-6d %-4b %-10d %-15d %-10d %-15d %-"+anchoTitulo+"s%-15d %-15d\n",
                         libro.getIsbn(),
                         (libro.isAlta()? "Sí" : "No"),
@@ -219,6 +216,29 @@ public class LibroServicio {
             }
         } catch (Exception e) {
             System.err.println("Error al modificar el libro: " + e.getMessage());
+        }
+    }
+    
+    public void eliminarLibroPorIsbn(){
+         
+        System.out.println("Ingrese el Isbn del libro que desea eliminar");
+        Long isbn=leer.nextLong();
+        
+        try {
+              //Aquí puedes agregar validaciones antes de llamar al método de DAO
+            if (isbn <= 0) {
+                throw new Exception("El isbn del libro debe ser un número mayor que cero.");
+            }
+            
+            Libro libro = dao.buscarLibroPorIsbn(isbn);
+            if (libro != null) {
+                 dao.eliminar(libro);
+                 System.out.println("El libro fue eliminada con éxito!");
+            } else {
+                System.out.println("El libro no existe en la base de datos.");
+            }
+        } catch (Exception e) {
+            System.err.println("Error al eliminar el libro: " + e.getMessage());
         }
     }
 

@@ -25,18 +25,26 @@ public class EditorialServicio {
             System.out.println("Ingrese el nombre de la editorial");
             String nombre = leer.next();
 
-            // Verifica si la editorial ya existe
-            if (dao.existeEditorial(nombre)) {
-                System.out.println("La editorial ya existe en la base de datos.");
+            // Verifica si la editorial ya existe por nombre
+            Editorial editorialExistente = dao.buscarEditorialPorNombre(nombre);
+
+            if (editorialExistente != null) {
+            // Si ya existe, reemplaza la editorial existente con la nueva información.
+                editorialExistente.setNombre(nombre);
+                editorialExistente.setAlta(true);
+                dao.editar(editorialExistente); // Suponiendo que tienes un método para actualizar
+                System.out.println("La editorial ha sido actualizada exitosamente!");
+                return editorialExistente;
             } else {
+                // Si no existe, crea una nueva editorial y guárdala.
                 editorial.setNombre(nombre);
                 editorial.setAlta(true);
-        
                 dao.guardar(editorial);
                 System.out.println("Editorial ingresada exitosamente!");
+            return editorial;
             }
         } catch (PersistenceException e) {
-             System.err.println("Error al guardar la editorial: " + e.getMessage());
+             System.err.println("Error al guardar o actualizar la editorial: " + e.getMessage());
         }
         return editorial;
     }
@@ -95,26 +103,25 @@ public class EditorialServicio {
         }
     }
     
-     public void eliminarEditorialPorId(){
+    public void eliminarEditorialPorId(){
          
         System.out.println("Ingrese el ID de la editorial que desea eliminar");
         Integer id=leer.nextInt();
         
         try {
-             // Aquí puedes agregar validaciones antes de llamar al método de DAO
+              //Aquí puedes agregar validaciones antes de llamar al método de DAO
             if (id <= 0) {
                 throw new Exception("El id de la editorial debe ser un número mayor que cero.");
             }
             
-            // Validar si el producto existe antes de intentar eliminarlo
-            if (!dao.existeID(id)) {
-                throw new Exception("El id de la editorial " + id + " no existe en la base de datos.");
-            }   
-            
-            dao.eliminar(id);
-        
+            Editorial editorial = dao.buscarEditorialPorId(id);
+            if (editorial != null) {
+                 dao.eliminar(editorial);
+                 System.out.println("La editorial fue eliminada con éxito!");
+            } else {
+                System.out.println("La editorial no existe en la base de datos.");
+            }
         } catch (Exception e) {
-        // Capturar y manejar excepciones generadas por las validaciones
             System.err.println("Error al eliminar la editorial: " + e.getMessage());
         }
     }

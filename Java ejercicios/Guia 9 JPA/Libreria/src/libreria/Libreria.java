@@ -33,7 +33,7 @@ public class Libreria {
             System.out.println("");
             System.out.println("Menú de Opciones:");
             System.out.println("1. Crear Autor");
-            System.out.println("2. Crear Libro");
+            System.out.println("2. Crear Libro, Autor y editorial");
             System.out.println("3. Crear Editorial");
             System.out.println("4. Editar Autor");
             System.out.println("5. Editar Libro");
@@ -63,7 +63,7 @@ public class Libreria {
                     autorServicio.crearAutor();
                     break;
                 case 2:
-                    // Crear Libro
+                    // Crear Libro, Autor y editorial
                     libroServicio.crearLibro();
                     break;
                 case 3:
@@ -88,7 +88,7 @@ public class Libreria {
                     break;
                 case 8:
                     // Eliminar Libro
-                  //  libroServicio.eliminarLibro();
+                     libroServicio.eliminarLibroPorIsbn();
                     break;
                 case 9:
                     // Eliminar Editorial
