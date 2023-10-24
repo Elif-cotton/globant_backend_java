@@ -31,27 +31,51 @@ public class DAO <T>{
     }
     
     protected void guardar(T objeto){
-        conectar();
-        em.getTransaction().begin();
-        em.persist(objeto);
-        em.getTransaction().commit();
-        desconectar();
+        try{
+           conectar();
+            em.getTransaction().begin();
+            em.persist(objeto);
+            em.getTransaction().commit(); 
+        }catch (Exception e){
+            System.out.println("No se puede cargar");
+            if (em.getTransaction().isActive()){
+                em.getTransaction().rollback();
+            }
+        }finally{
+            desconectar();
+        }
     }
     
     protected void editar(T objeto){
-        conectar();
-        em.getTransaction().begin();
-        em.merge(objeto);
-        em.getTransaction().commit();
-        desconectar();
+        try{
+            conectar();
+            em.getTransaction().begin();
+            em.merge(objeto);
+            em.getTransaction().commit();
+        }catch (Exception e){
+            System.out.println("No se pudo actulizar");
+            if (em.getTransaction().isActive()){
+                em.getTransaction().rollback();
+            }
+        }finally{
+            desconectar();
+        }
     }
     
     protected void eliminar(T objeto){
-        conectar();
-        em.getTransaction().begin();
-        em.remove(objeto);
-        em.getTransaction().commit();
-        desconectar();
+//        try{
+            conectar();
+            em.getTransaction().begin();
+            em.remove(objeto);
+            em.getTransaction().commit();
+//        }catch (Exception e){
+//            System.out.println("No se pudo eliminar");
+//            if (em.getTransaction().isActive()){
+//                em.getTransaction().rollback();
+//            }
+//        }finally{
+           desconectar();
+//        }
     }
     
 }

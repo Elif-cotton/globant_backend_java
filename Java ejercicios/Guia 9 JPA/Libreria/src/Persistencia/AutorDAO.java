@@ -3,6 +3,7 @@ package Persistencia;
 
 import Entidades.Autor;
 import java.util.List;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -14,6 +15,11 @@ public class AutorDAO extends DAO<Autor>{
     @Override
     public void guardar(Autor autor) {
         super.guardar(autor);
+    }
+    
+    @Override
+    public void editar(Autor autor) {
+        super.editar(autor);
     }
     
     public void editar(Integer id) throws Exception {
@@ -47,5 +53,27 @@ public class AutorDAO extends DAO<Autor>{
         Autor autor = em.createNamedQuery("Autor.buscarPorId", Autor.class).setParameter("id", id).getSingleResult();
         desconectar();
         return autor;
+    }
+    
+    public Autor buscarAutorId(Integer id){
+        Autor autor=em.find(Autor.class, id);
+        return autor;
+    }
+    
+    public List<Autor> buscarPorNombre(String nombre) {
+        return em.createQuery("SELECT a FROM Autor a WHERE a.nombrenombre").
+                setParameter("nombre", nombre).getResultList();
+    }
+    
+   public boolean existeID(Integer id) {
+        try {
+            conectar();
+            TypedQuery<Long> query = em.createQuery("SELECT COUNT(e) FROM Editorial e WHERE e.id = :id", Long.class);
+            query.setParameter("id", id);
+            Long count = query.getSingleResult();
+            return count > 0;
+        } finally {
+            desconectar();
+        }
     }
 }

@@ -27,7 +27,7 @@ public class Autor implements Serializable {
     @GeneratedValue(strategy=GenerationType.IDENTITY)  // id sea incremental, autogenerada e incrementa en 1
     private Integer id;
     
-    @Column(name="nombre_autor")
+    @Column(name="nombre_autor", unique = true)
     private String nombre;
     
     @Column(name="alta_libro")
@@ -40,6 +40,11 @@ public class Autor implements Serializable {
         this.nombre = nombre;
         this.alta = alta;
     }
+
+    public Integer getId() {
+        return id;
+    }
+    
 
     public String getNombre() {
         return nombre;
@@ -55,6 +60,11 @@ public class Autor implements Serializable {
 
     public void setAlta(boolean alta) {
         this.alta = alta;
+    }
+
+    @Override
+    public String toString() {
+        return "Autor{" + "id=" + id + ", nombre=" + nombre + ", alta=" + alta + '}';
     }
     
     

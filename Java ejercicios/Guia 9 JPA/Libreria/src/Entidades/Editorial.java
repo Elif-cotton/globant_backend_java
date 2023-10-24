@@ -20,7 +20,7 @@ public class Editorial implements Serializable {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
     
-    @Column(name="nombre")
+    @Column(name="nombre", unique = true)
     private String nombre;
     
     @Column(name="alta")
@@ -59,7 +59,6 @@ public class Editorial implements Serializable {
         return "Editorial{" + "id=" + id + ", nombre=" + nombre + ", alta=" + alta + '}';
     }
     
-    
-    
+      
     
 }

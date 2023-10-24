@@ -3,6 +3,8 @@ package Persistencia;
 
 import Entidades.Editorial;
 import java.util.List;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -15,9 +17,14 @@ public class EditorialDAO extends DAO <Editorial>{
         super.guardar(editorial);
     }
     
-     @Override
+    @Override
     public void editar(Editorial editorial) {
-        super.guardar(editorial);
+        super.editar(editorial);
+    }
+    
+    @Override
+    public void eliminar(Editorial editorial) {
+        super.eliminar(editorial);
     }
     
     public Editorial buscarEditorialId(Integer id){
@@ -49,4 +56,39 @@ public class EditorialDAO extends DAO <Editorial>{
         desconectar();
         return editoriales;
     }
+    
+    public boolean existeEditorial(String nombre) {
+        conectar();
+        Query query = em.createQuery("SELECT COUNT(e) FROM Editorial e WHERE e.nombre = :nombre", Long.class);
+        query.setParameter("nombre", nombre);
+        long cantidad = (long) query.getSingleResult();
+        desconectar();
+        return cantidad > 0;
+    }
+    
+//    public boolean existeEditorial(int id) {
+//        try {
+//            conectar();
+//            TypedQuery<Long> query = em.createQuery("SELECT COUNT(e) FROM Editorial e WHERE e.id = :id", Long.class);
+//            query.setParameter("id", id);
+//            Long count = query.getSingleResult();
+//            return count > 0;
+//        } finally {
+//            desconectar();
+//        }
+//    }
+
+    public boolean existeID(Integer id) {
+        try {
+            conectar();
+            TypedQuery<Long> query = em.createQuery("SELECT COUNT(e) FROM Editorial e WHERE e.id = :id", Long.class);
+            query.setParameter("id", id);
+            Long count = query.getSingleResult();
+            return count > 0;
+        } finally {
+            desconectar();
+        }
+    }
+    
+    
 }

@@ -4,8 +4,6 @@ package Entidades;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -46,7 +44,8 @@ public class Libro implements Serializable {
     public Libro() {
     }
 
-    public Libro(long isbn, String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, boolean alta, Autor autor, Editorial editorial) {
+    public Libro(long isbn, String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados, 
+            Integer ejemplaresRestantes, boolean alta, Autor autor, Editorial editorial) {
         this.isbn = isbn;
         this.titulo = titulo;
         this.anio = anio;
@@ -57,7 +56,6 @@ public class Libro implements Serializable {
         this.autor = autor;
         this.editorial = editorial;
     }
-
 
     public long getIsbn() {
         return isbn;
@@ -130,6 +128,13 @@ public class Libro implements Serializable {
     public void setEditorial(Editorial editorial) {
         this.editorial = editorial;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Libro{" + "isbn=" + isbn + ", titulo=" + titulo + ", anio=" + anio + ", ejemplares=" + ejemplares + ", ejemplaresPrestados=" + ejemplaresPrestados + ", ejemplaresRestantes=" + ejemplaresRestantes + ", alta=" + alta + ", autor=" + autor + ", editorial=" + editorial + '}';
+    }
+
+   
+   
     
 }

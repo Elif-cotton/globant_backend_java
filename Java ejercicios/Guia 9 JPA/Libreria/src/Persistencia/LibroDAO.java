@@ -2,6 +2,7 @@
 package Persistencia;
 
 import Entidades.Libro;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -20,35 +21,35 @@ public class LibroDAO extends DAO <Libro> {
         super.editar(libro);
     }
     
-    public void editar(long isbn) throws Exception {
-        Libro libro = buscarPorId(isbn);
-        super.editar(libro);
-    }
+//    public void editar(long isbn) throws Exception {
+//        Libro libro = buscarPorId(isbn);
+//        super.editar(libro);
+//    }
     
      public void eliminar(String titulo) throws Exception {
         Libro libro = (Libro) buscarPorTitulo(titulo);
         super.editar(libro);
     }
      
-    public void eliminar(long isbn) throws Exception {
-        Libro libro = buscarPorId(isbn);
-        super.eliminar(libro);
-    }
-    
-    public Libro buscarPorId(long isbn) throws Exception {
-        conectar();
-        Libro libro = (Libro) em.createQuery("SELECT l FROM Libro l WHERE l.isbn LIKE :id").setParameter("isbn", isbn).getSingleResult();
-        desconectar();
-        return libro;
-    }
+//    public void eliminar(long isbn) throws Exception {
+//        Libro libro = buscarPorId(isbn);
+//        super.eliminar(libro);
+//    }
+//    
+//    public Libro buscarPorId(long isbn){
+//        conectar();
+//        Libro libro = (Libro) em.createQuery("SELECT l FROM Libro l WHERE l.isbn LIKE :id").setParameter("isbn", isbn).getSingleResult();
+//        desconectar();
+//        return libro;
+//    }
 
     public List<Libro> listarTodos() throws Exception {
         conectar();
-        List<Libro> libros = em.createQuery("SELECT l FROM Editorial l").getResultList();
+        List<Libro> libros = em.createQuery("SELECT l FROM Libro l").getResultList();
         desconectar();
         return libros;
     }
-    
+        
     public List<Libro> buscarPorTitulo(String titulo) {
         conectar();
         List<Libro> libros = em.createQuery("SELECT l FROM Libro l WHERE l.titulo LIKE :titulo")
@@ -57,8 +58,47 @@ public class LibroDAO extends DAO <Libro> {
         return libros;
     }
     
+     
     public Libro buscarLibroIsbn(long isbn){
         Libro libro=em.find(Libro.class, isbn);
         return libro;
     }
+    
+    public List<Libro> buscarPorAutor(String nombreAutor) {
+        try {
+            conectar();
+            List<Libro> libros = em.createQuery(
+                "SELECT l FROM Libro l " +
+                "INNER JOIN l.autor a " +
+                "WHERE a.nombre = :nombreAutor", Libro.class)
+                .setParameter("nombreAutor", nombreAutor).getResultList();
+            desconectar();
+            return libros;
+        } catch (Exception e) {
+            System.out.println("Ocurrió un error al buscar libros por autor: " + e.getMessage());
+             return Collections.emptyList(); // Devuelve una lista vacía en caso de error
+        } finally {
+            desconectar();
+        }
+    }
+    
+    public List<Libro> buscarPorEditorial(String editorial) {
+        try {
+            conectar();
+             List<Libro> libros = em.createQuery(
+                     "SELECT l FROM Libro l"
+                   + " INNER JOIN l.editorial e "
+                   + "WHERE e.nombre = :editorial", Libro.class)
+                    .setParameter("editorial", editorial).getResultList();
+            desconectar();
+            return libros;
+        } catch (Exception e) {
+            System.out.println("Ocurrió un error al buscar libros por editorial: " + e.getMessage());
+             return Collections.emptyList(); // Devuelve una lista vacía en caso de error
+        } finally {
+            desconectar();
+        }
+    }
+    
+
 }
