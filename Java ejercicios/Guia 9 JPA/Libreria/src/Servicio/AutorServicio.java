@@ -39,11 +39,11 @@ public class AutorServicio {
                 autor.setNombre(nombre);
                 autor.setAlta(true);
                 dao.guardar(autor);
-                System.out.println("Editorial ingresada exitosamente!");
+                System.out.println("Autor ingresada exitosamente!");
             return autor;
             }
         } catch (PersistenceException e) {
-             System.err.println("Error al guardar o actualizar la editorial: " + e.getMessage());
+             System.err.println("Error al guardar o actualizar la Autor: " + e.getMessage());
         }
         return autor;
     }
