@@ -8,16 +8,12 @@ import javax.persistence.Persistence;
 /**
  *
  * @author javer
+ * @param <T>
  */
 public abstract class DAO <T>{
     
-    private final EntityManagerFactory emf;
-    protected EntityManager em;
-
-    public DAO() {
-        this.emf = Persistence.createEntityManagerFactory("GestorLibrosPU");
-        this.em = emf.createEntityManager();
-    }
+    protected final EntityManagerFactory emf = Persistence.createEntityManagerFactory("GestorLibrosPU");
+    protected EntityManager em = emf.createEntityManager();
 
     protected void conectar() {
         if (!em.isOpen()) {

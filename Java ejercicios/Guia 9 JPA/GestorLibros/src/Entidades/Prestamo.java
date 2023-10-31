@@ -40,6 +40,9 @@ public class Prestamo implements Serializable {
     @ManyToOne   //muchos prestamos a un cliente 
     @JoinColumn(name="id_cliente")  //nombre de la columna a relaciona esta tabla con la tabla prestamo
     private Cliente cliente;  
+    
+    @Column(name="alta")
+    private boolean alta;
 
     public Prestamo() {
     }
@@ -87,6 +90,14 @@ public class Prestamo implements Serializable {
         this.cliente = cliente;
     }
 
+    public boolean isAlta() {
+        return alta;
+    }
+
+    public void setAlta(boolean alta) {
+        this.alta = alta;
+    }
+    
     @Override
     public String toString() {
         return "Prestamo{" + "id=" + id + ", fechaPrestamo=" + fechaPrestamo + ", fechaDevoclucion=" + 

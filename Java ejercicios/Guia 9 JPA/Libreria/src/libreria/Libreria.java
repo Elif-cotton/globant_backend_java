@@ -51,7 +51,7 @@ public class Libreria {
             System.out.println("17. Dar de baja Editorial");
             System.out.println("18. Mostrar tabla libros");
             System.out.println("19. Mostrar tabla autores");
-             System.out.println("20. Mostrar tabla editoriales");
+            System.out.println("20. Mostrar tabla editoriales");
             System.out.println("0. Salir");
 
             System.out.print("Seleccione una opción: ");

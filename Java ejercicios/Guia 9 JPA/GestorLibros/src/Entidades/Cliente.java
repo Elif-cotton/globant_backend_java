@@ -33,6 +33,8 @@ public class Cliente implements Serializable {
     @Column(name="telefono")
     private String telefono;
     
+    @Column(name="alta")
+    private boolean alta;
 
     public Cliente() {
     }
@@ -80,6 +82,15 @@ public class Cliente implements Serializable {
         this.telefono = telefono;
     }
 
+    public boolean isAlta() {
+        return alta;
+    }
+
+    public void setAlta(boolean alta) {
+        this.alta = alta;
+    }
+
+    
     @Override
     public String toString() {
         return "Cliente{" + "id=" + id + ", dni=" + documento + ", nombre=" + nombre + ", apellido=" 

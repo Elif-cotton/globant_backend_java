@@ -4,6 +4,8 @@ package Entidades;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -19,7 +21,8 @@ import javax.persistence.Table;
 public class Libro implements Serializable {
     
     @Id
-    private long isbn;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long isbn;
     
     @Column(name="titulo_libro")
     private String titulo;
@@ -106,7 +109,7 @@ public class Libro implements Serializable {
         this.ejemplaresRestantes = ejemplaresRestantes;
     }
 
-    public boolean isAlta() {
+    public boolean getAlta() {
         return alta;
     }
 
