@@ -61,6 +61,7 @@ public class EditorialServicio {
             editorial.setNombre(nombre);
             
             editorialRepositorio.save(editorial);
+        
         }
     }
     
