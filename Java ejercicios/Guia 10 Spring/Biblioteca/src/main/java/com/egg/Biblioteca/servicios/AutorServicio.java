@@ -71,4 +71,11 @@ public class AutorServicio {
         }   
         
     }
+    
+    
+    //
+    public Autor getOne(String id){
+        
+        return autorRepositorio.getOne(id);
+    }
 }

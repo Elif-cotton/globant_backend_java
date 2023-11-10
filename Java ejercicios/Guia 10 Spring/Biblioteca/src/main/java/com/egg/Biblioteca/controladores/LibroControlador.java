@@ -1,12 +1,14 @@
 
 package com.egg.Biblioteca.controladores;
 
+import com.egg.Biblioteca.entidades.Autor;
+import com.egg.Biblioteca.entidades.Editorial;
+import com.egg.Biblioteca.entidades.Libro;
 import com.egg.Biblioteca.excepciones.MiException;
 import com.egg.Biblioteca.servicios.AutorServicio;
 import com.egg.Biblioteca.servicios.EditorialServicio;
 import com.egg.Biblioteca.servicios.LibroServicio;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -34,7 +36,14 @@ public class LibroControlador {
     private EditorialServicio editorialServicio;
     
     @GetMapping("registrar")  //localhost:8080/libro/registrar
-    public String registrar(){
+    public String registrar(ModelMap modelo){   //traer los valores previamente cargados de editorial y autor
+        
+        List<Autor> autores= autorServicio.listarAutores();
+        List<Editorial> editoriales= editorialServicio.listarEditoriales();
+        
+        modelo.addAttribute("autores", autores);
+        modelo.addAttribute("editoriales", editoriales);
+        
         return "libro_form.html";
     }
     
@@ -50,7 +59,12 @@ public class LibroControlador {
             modelo.put("exito" ,"El libro fue cargado correctamente!" );
             
         }catch (MiException ex){
-            
+            List<Autor> autores= autorServicio.listarAutores();
+            List<Editorial> editoriales= editorialServicio.listarEditoriales();
+        
+            modelo.addAttribute("autores", autores);
+            modelo.addAttribute("editoriales", editoriales);
+        
             modelo.put("error", ex.getMessage());
             
             return "libro_form.html";      //volvemos a cargar el formulario
@@ -58,5 +72,14 @@ public class LibroControlador {
         return "index.html";    //si se creo correctamente no envía a pág inicial
     }
     
+    @GetMapping("/lista")
+    public String listar(ModelMap modelo){
+        
+        List<Libro> libros= libroServicio.listarLibros();
+        
+        modelo.addAttribute("libros", libros);
+        
+        return "libro_list.html";
+    }
     
 }

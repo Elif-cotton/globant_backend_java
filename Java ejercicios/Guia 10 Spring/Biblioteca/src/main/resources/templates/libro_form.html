@@ -21,31 +21,12 @@
         </header>
         
         
+        
         <div class="container">
             <form action="/libro/registro" method="POST">
-                <div class="form-group">
-                   
-                    <input type="text" class="form-control" id="isbn" name="isbn" placeholder="ISBN del Libro">
-                </div>
-                <div class="form-group">
-                    
-                    <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Título del Libro" >
-                </div>
-                <div class="form-group">
-                    
-                    <input type="number" class="form-control" id="ejemplares" name="ejemplares" placeholder="Ejemplares" >
-                </div>
-                <div class="form-group">
-                    
-                    <input type="text" class="form-control" id="idAutor" name="idAutor" placeholder="ID del Autor" >
-                </div>
-                <div class="form-group">
-                    
-                    <input type="text" class="form-control" id="idEditorial" name="idEditorial" placeholder="ID de la Editorial" >
-                </div>
+              
                 
-                
-                <!-- Mensaje de error -->
+                 <!-- Mensaje de error -->
                 <div th:if="${error != null}" class="card text-white bg-danger mb-3 mensajeError">
                     <div class="card-body">
                         <h5 class="card-title">Error </h5>
@@ -59,6 +40,47 @@
                         <p class="card-text" th:text="${exito}"></p>
                     </div>
                 </div>
+                 
+                 
+                <!-- Inicio campos formulario -->
+                <div class="form-group">
+                   
+                    <input type="text" class="form-control" id="isbn" name="isbn" placeholder="ISBN del Libro">
+                </div>
+                <div class="form-group">
+                    
+                    <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Título del Libro" >
+                </div>
+                <div class="form-group">
+                    
+                    <input type="number" class="form-control" id="ejemplares" name="ejemplares" placeholder="Ejemplares" >
+                </div>
+                
+                
+               <!-- desplegable autor -->
+                <div class="form-group my-3">
+                    <select name="idAutor">    <!-- llega del controlador, nombre con que viaja -->
+                        <option>Seleccionar Autor</option>
+                        
+                        <option th:each="autor : ${autores}"    
+                                th:value="${autor.id}"
+                                th:text="${autor.nombre}"
+                                />                              <!-- Mostrar las opciones de BD,iterar -->
+                    </select>
+                </div>
+               
+                <!-- desplegable de editorial -->
+                <div class="form-group my-3">
+                    <select name="idEditorial">  
+                        <option>Seleccionar Editorial</option>
+                        <option th:each="editorial : ${editoriales}"
+                                th:value="${editorial.id}" 
+                                th:text="${editorial.nombre}"
+                                />
+                    </select>
+                </div>
+                
+ 
                 
                 <button type="submit" class="btn btn-primary">Subir</button>  
             </form>
