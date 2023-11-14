@@ -13,7 +13,7 @@
         <title>Página de inicio de las noticias</title>
     </head>
     <body>
-      
+      <!-- Menú navegador -->
         <nav class="navbar navbar-expand-lg navBar">
             <div class="containerImg">
                 <a href="/" class="navbar-brand d-flex align-items-center">
@@ -41,7 +41,7 @@
                 </ul>
             </div>
         </nav>
-
+        <!-- Contenido -->
         <header class="header">
             <section class="contenedorMain">
                 <div class="tituloBiblioteca">
@@ -68,16 +68,21 @@
 
             <div class="row">
                 <!-- Iteramos sobre la lista de noticias -->
-                <div th:each="noticia : ${noticias}" th:if="${noticia.alta == true}" class="col-md-4 mb-4">
+                <div th:each="noticia : ${noticias}" 
+                     th:if="${noticia.alta == true}" 
+                     class="col-md-4 mb-4">
                     <div class="card">
                         <!-- Título de la noticia -->
                         <div class="card-body">
-                            <h5 class="card-title" th:text="${noticia.titulo}"></h5>
+                            <h5 class="card-title" 
+                                th:text="${noticia.titulo}"></h5>
                             <!-- Contenido de la noticia (puedes ajustar esto) -->
-                            <p class="card-text" th:text="${noticia.cuerpo}"></p>
+                            <p class="card-text" 
+                               th:text="${noticia.cuerpo}"></p>
 
                             <!-- Enlace a la página de detalle de la noticia -->
-                            <a th:href="@{/noticia/detalle/{id}(id=${noticia.id})}" class="btn btn-primary">Leer Más</a>
+                            <a th:href="@{/noticia/detalle/{id}(id=${noticia.id})}" 
+                               class="btn btn-primary">Leer Más</a>
                         </div>
                     </div>
                 </div>

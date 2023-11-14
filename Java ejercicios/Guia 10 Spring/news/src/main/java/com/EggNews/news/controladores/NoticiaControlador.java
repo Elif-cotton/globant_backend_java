@@ -38,8 +38,6 @@ public class NoticiaControlador {
         //ModelMap envía la variable al HTML
         
         try {
-             //System.out.println("titulo: "+titulo); //para saber si esta recibiendo los titulos 
-        
             noticiaServicio.crearNoticia(titulo, cuerpo);
             modelo.put("exito" ,"La noticia fue cargada correctamente!" );
              
@@ -66,7 +64,7 @@ public class NoticiaControlador {
     }
     
     @GetMapping("/modificar/{id}")   //id viaja en esa url
-    public String modificar(@PathVariable String id, ModelMap modelo){ //envian el id para modificar
+    public String modificar(@PathVariable(required = false) String id, ModelMap modelo){ //envian el id para modificar
         
         modelo.put("noticia", noticiaServicio.getOne(id));
         
@@ -74,15 +72,29 @@ public class NoticiaControlador {
     }
     
     @PostMapping("/modificar/{id}")
-    public String modificar(@PathVariable String id, String titulo, String cuerpo, ModelMap modelo) throws MiException{
+    public String modificar(@PathVariable(required = false) String id, String titulo, String cuerpo, ModelMap modelo) throws MiException{
         try{
         noticiaServicio.modificarNoticia(id, titulo, cuerpo);
         
-        return "redirect:../lista";
+        modelo.put("éxito", "Se modificó correctamente la noticia");
         
         }catch(MiException ex){
            modelo.put("error", ex.getMessage());
            return "noticia_modificar.html";
         }
+        return "index.html";
+    }
+    
+    
+    @GetMapping("/eliminar/{id}")
+    public String eliminar(@PathVariable(required = false) String id, ModelMap modelo) {
+        try {
+            noticiaServicio.darBajaNoticia(id);
+            modelo.put("éxito", "Se eliminó correctamente la noticia");
+        } catch (MiException ex) {
+            modelo.put("error", ex.getMessage());
+            return "noticia_modificar.html"; // o el nombre de tu página de error
+        }
+        return "redirect:/index"; // o la ruta a la página principal después de la eliminación
     }
 }

@@ -2,9 +2,13 @@
 package com.EggNews.news.entidades;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -13,6 +17,7 @@ import org.hibernate.annotations.GenericGenerator;
  */
 
 @Entity
+@Table(name="noticias")
 public class Noticia implements Serializable {
     
     @Id
@@ -22,8 +27,19 @@ public class Noticia implements Serializable {
     
     private String titulo;
     private String cuerpo;
+    
+    @Temporal(TemporalType.DATE)
+    private Date alta;
 
     public Noticia() {
+    }
+
+    public Date getAlta() {
+        return alta;
+    }
+
+    public void setAlta(Date alta) {
+        this.alta = alta;
     }
 
     public String getId() {

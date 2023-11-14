@@ -5,6 +5,7 @@ import com.EggNews.news.entidades.Noticia;
 import com.EggNews.news.excepciones.MiException;
 import com.EggNews.news.repositorios.NoticiaRepositorio;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
@@ -39,6 +40,7 @@ public class NoticiaServicio {
         
             noticia.setTitulo(titulo);
             noticia.setCuerpo(cuerpo);
+            noticia.setAlta(new Date());
         
             noticiaRepositorio.save(noticia);
         }
