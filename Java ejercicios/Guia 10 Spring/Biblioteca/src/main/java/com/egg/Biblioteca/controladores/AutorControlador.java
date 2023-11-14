@@ -5,8 +5,6 @@ import com.egg.Biblioteca.entidades.Autor;
 import com.egg.Biblioteca.excepciones.MiException;
 import com.egg.Biblioteca.servicios.AutorServicio;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
