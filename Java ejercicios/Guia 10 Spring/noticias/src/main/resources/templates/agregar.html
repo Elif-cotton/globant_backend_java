@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{fragmentos/cabecero::cabecero-seccion(titulo='Agregar')}">
+
+    </head>
+    <body>
+        <!--div del menú de navegación-->
+        <div th:replace="~{fragmentos/navegacion::navegacion-seccion}"/>
+
+
+        <!--div del titulo-->
+        <div class="container">
+            <div class="container text-center" style="margin:30px">
+                <h3>Agregar noticia</h3>
+            </div>
+
+            <!--div del formulario-->
+            <div class="container">
+                <form action="/agregar" modelAttribute="noticiaForma" method="post"> <!--enviar info a la BD desde el formulario-->
+                    <div class="mb-3">
+                        <label for="titulo" class="form-label">Titulo</label>
+                        <input type="text" class="form-control" id="titulo" name="titulo" required="true">
+                    </div>
+                    <div class="mb-3">
+                        <label for="cuerpo" class="form-label">Cuerpo</label>
+                        <input type="text" class="form-control" id="cuerpo" name="cuerpo">
+                    </div>
+                    <!-- <div class="mb-3">
+                        <label for="fechaPublicacion" class="form-label">Fecha publicación</label>
+                        <input type="email" class="form-control" id="fechaPublicacion" name="fechaPublicacion">
+                    </div>-->
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-warning btn-sm me-3">Agregar</button>
+                        <a href="/" class="btn btn-danger btn-sm">Regresar</a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <!--div del pie de página-->
+        <div th:replace="~{fragmentos/pie-pagina::pie-pagina-seccion}"/> <!--incluir la ruta del fragmento a agregar-->
+
+    </body>
+</html>

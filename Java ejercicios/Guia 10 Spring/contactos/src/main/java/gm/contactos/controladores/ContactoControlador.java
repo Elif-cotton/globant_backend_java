@@ -1,0 +1,82 @@
+package gm.contactos.controladores;
+
+import gm.contactos.entidades.Contacto;
+import gm.contactos.servicios.ContactoServicio;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
+
+@Controller
+public class ContactoControlador {
+
+    private static final Logger logger=
+            LoggerFactory.getLogger(ContactoControlador.class);  //mandar información
+
+    @Autowired
+    private ContactoServicio contactoServicio;
+
+    @GetMapping("/")
+    public String iniciar(ModelMap modelo){
+        List<Contacto> contactos= contactoServicio.listarContactos();
+
+        contactos.forEach(contacto -> logger.info(contacto.toString()));
+        modelo.put("contactos", contactos);
+        return "index";    //index.html
+    }
+
+    @GetMapping("/agregar")  //muestra pág formulario
+    public String mostrarAgregar(){
+
+        return "agregar";   //redirecciona a la pag agregar.html
+    }
+
+    @PostMapping("/agregar")   //recibe información
+    public String agregar(@ModelAttribute ("contactoForma") Contacto contacto){
+        logger.info("Contacto a agregar"+contacto);
+
+        contactoServicio.guardarContacto(contacto);
+
+        return "redirect:/";  //redirigimos al controlador el path "/" de inicio
+    }
+
+    @GetMapping("/editar/{id}")   //muestra el formulario de editar
+    public String mostrarEditar(@PathVariable(value = "id") int idContacto, ModelMap modelo){
+
+        Contacto contacto= contactoServicio.buscarContactoPorId(idContacto);
+
+        logger.info("Contacto a editar (mostrar): "+contacto);
+
+        modelo.put("contacto",contacto);  //vista pueda acceder al objeto
+        return "editar"; //editar.html
+    }
+
+    @PostMapping("/editar")
+    public String editar(@ModelAttribute("contacto") Contacto contacto){
+
+        logger.info("Contacto a guardar (editar): "+contacto);
+
+        contactoServicio.guardarContacto(contacto);
+
+        return "redirect:/";  //redirigimos al controlador el path "/" de inicio
+    }
+
+
+    @GetMapping("/eliminar/{id}")   //muestra el formulario de editar
+    public String mostrarEliminar(@PathVariable(value = "id") int idContacto){
+
+        Contacto contacto=new Contacto();
+        contacto.setIdContacto(idContacto);
+        contactoServicio.eliminarContacto(contacto);
+
+        return "redirect:/";
+    }
+
+}

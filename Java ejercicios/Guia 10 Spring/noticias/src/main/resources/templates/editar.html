@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{fragmentos/cabecero::cabecero-seccion(titulo='Editar')}">
+
+    </head>
+    <body>
+        <!--div del menú de navegación-->
+        <div th:replace="~{fragmentos/navegacion::navegacion-seccion}"/>
+
+
+        <!--div del titulo-->
+        <div class="container">
+            <div class="container text-center" style="margin:30px">
+                <h3>Editar noticia</h3>
+            </div>
+
+            <!--div del formulario-->
+            <div class="container">
+                <form action="/editar" th:object="${noticia}" method="post"> <!--se va a recibir la info de BD del objeto debemos agregar th:object-->
+                    <input type="hidden" th:field="*{id}"/> <!--oculto-->
+                    <div class="mb-3">
+                        <label for="titulo" class="form-label">Titulo</label>
+                        <input type="text" class="form-control"
+                               id="titulo" name="titulo" required="true"
+                               th:field="*{titulo}"> <!--th:field titulo del atributo a acceder del obj-->
+                    </div>
+                    <div class="mb-3">
+                        <label for="cuerpo" class="form-label">Cuerpo</label>
+                        <input type="text" class="form-control" id="cuerpo" name="cuerpo"
+                               th:field="*{cuerpo}">
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-warning btn-sm me-3">Editar</button>
+                        <a href="/" class="btn btn-danger btn-sm">Regresar</a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <!--div del pie de página-->
+        <div th:replace="~{fragmentos/pie-pagina::pie-pagina-seccion}"/> <!--incluir la ruta del fragmento a agregar-->
+
+    </body>
+</html>
