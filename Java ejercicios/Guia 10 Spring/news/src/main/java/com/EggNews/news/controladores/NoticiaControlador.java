@@ -86,10 +86,10 @@ public class NoticiaControlador {
     }
     
     
-    @GetMapping("/eliminar/{id}")
-    public String eliminar(@PathVariable(required = false) String id, ModelMap modelo) {
+    @GetMapping("/darBaja/{id}")
+    public String darBajaNoticia(@PathVariable String id, ModelMap modelo) {
         try {
-            noticiaServicio.darBajaNoticia(id);
+            noticiaServicio.darDeBajaNoticia(id);
             modelo.put("éxito", "Se eliminó correctamente la noticia");
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
@@ -97,4 +97,16 @@ public class NoticiaControlador {
         }
         return "redirect:/index"; // o la ruta a la página principal después de la eliminación
     }
+    
+//    @PostMapping("/{id}/darDeBaja")
+//    public String darDeBajaNoticia(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+//        noticiaServicio.darDeBajaNoticia(id);
+//        redirectAttributes.addFlashAttribute("mensaje", "Noticia con ID " + id + " ha sido dada de baja correctamente.");
+//        return "redirect:/noticias/mensaje";
+//    }
+//
+//    @GetMapping("/mensaje")
+//    public String mostrarMensaje(Model model) {
+//        return "mensaje";
+//    }
 }

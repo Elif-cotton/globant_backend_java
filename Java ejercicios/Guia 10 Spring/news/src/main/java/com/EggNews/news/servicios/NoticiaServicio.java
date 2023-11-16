@@ -40,7 +40,8 @@ public class NoticiaServicio {
         
             noticia.setTitulo(titulo);
             noticia.setCuerpo(cuerpo);
-            noticia.setAlta(new Date());
+            noticia.setFechaPublicacion(new Date());
+            noticia.setBaja(false);
         
             noticiaRepositorio.save(noticia);
         }
@@ -78,18 +79,33 @@ public class NoticiaServicio {
            
     }
     
-    public void darBajaNoticia(String id)throws MiException{
+//    public void darBajaNoticia(String id)throws MiException{
+//        
+//        Optional<Noticia> noticiaExistente = noticiaRepositorio.findById(id);
+//
+//        if (noticiaExistente.isPresent()) {
+//  
+//            noticiaRepositorio.deleteById(id);
+//        } else {
+//            
+//            throw new MiException("No se encontró la noticia con el ID especificado");
+//        }
+//
+//    }
+    
+    public void darDeBajaNoticia(String id) throws MiException {
         
-        Optional<Noticia> noticiaExistente = noticiaRepositorio.findById(id);
+        Optional<Noticia> noticiaExiste = noticiaRepositorio.findById(id);
 
-        if (noticiaExistente.isPresent()) {
-  
-            noticiaRepositorio.deleteById(id);
-        } else {
+        if (noticiaExiste.isPresent()) {
+            Noticia noticia = noticiaExiste.get();
+            noticia.setBaja(true);
+            noticiaRepositorio.save(noticia);
+        }else {
             
             throw new MiException("No se encontró la noticia con el ID especificado");
         }
-
+        
     }
     
     private void validar(String titulo, String cuerpo) throws MiException{

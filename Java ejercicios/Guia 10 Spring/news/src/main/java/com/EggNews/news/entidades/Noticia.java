@@ -3,6 +3,7 @@ package com.EggNews.news.entidades;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -27,19 +28,13 @@ public class Noticia implements Serializable {
     
     private String titulo;
     private String cuerpo;
+    private Boolean baja;
     
     @Temporal(TemporalType.DATE)
-    private Date alta;
+    @Column(name="fecha_publicacion")
+    private Date fechaPublicacion;
 
     public Noticia() {
-    }
-
-    public Date getAlta() {
-        return alta;
-    }
-
-    public void setAlta(Date alta) {
-        this.alta = alta;
     }
 
     public String getId() {
@@ -65,7 +60,25 @@ public class Noticia implements Serializable {
     public void setCuerpo(String cuerpo) {
         this.cuerpo = cuerpo;
     }
+
+    public Boolean getBaja() {
+        return baja;
+    }
+
+    public void setBaja(Boolean baja) {
+        this.baja = baja;
+    }
+
+    public Date getFechaPublicacion() {
+        return fechaPublicacion;
+    }
+
+    public void setFechaPublicacion(Date fechaPublicacion) {
+        this.fechaPublicacion = fechaPublicacion;
+    }
+
     
     
+   
     
 }
