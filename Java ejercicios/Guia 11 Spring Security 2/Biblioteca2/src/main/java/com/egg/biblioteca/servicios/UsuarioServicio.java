@@ -5,12 +5,21 @@ import com.egg.biblioteca.entidades.Usuario;
 import com.egg.biblioteca.enumeraciones.Rol;
 import com.egg.biblioteca.excepciones.MiException;
 import com.egg.biblioteca.repositorios.UsuarioRepositorio;
+import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  *
@@ -32,7 +41,7 @@ public class UsuarioServicio implements UserDetailsService{
         
         usuario.setNombre(nombre);
         usuario.setEmail(email);
-        usuario.setPassword(password);
+        usuario.setPassword(new BCryptPasswordEncoder().encode(password));  //codificar el password
         
         usuario.setRol(Rol.USER);
         
@@ -59,15 +68,31 @@ public class UsuarioServicio implements UserDetailsService{
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {  //recibir el email para autenticar
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {  //recibir el email para autenticar al logearse
         
         Usuario usuario= usuarioRepositorio.buscarPorEmail(email);
         
         if (usuario!=null){
             
+            List<GrantedAuthority> permisos= new ArrayList();  //contener todos los permisos
+             
+            GrantedAuthority p = new SimpleGrantedAuthority("ROLE_" + usuario.getRol().toString());  //ROLE_USER
+
+            permisos.add(p);
+
+//            ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+//
+//            HttpSession session = attr.getRequest().getSession(true);
+
+//            session.setAttribute("usuariosession", usuario);
+
+            return new User(usuario.getEmail(), usuario.getPassword(), permisos);
+        }else{
+            return null;
         }
-        return null;
     }
+    
+    
 
     
 }
