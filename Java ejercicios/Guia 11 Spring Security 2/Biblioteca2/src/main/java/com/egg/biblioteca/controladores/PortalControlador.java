@@ -40,7 +40,9 @@ public class PortalControlador {
             
             modelo.put("exito", "Usuario registrado correctamente!");
             return "index.html";
+            
         } catch (MiException ex) {
+            
             modelo.put("error", ex.getMessage());
             modelo.put("nombre",nombre); //en caso de error no tengamos que escribirlos otra vez, quedan guardados
             modelo.put("email",email);
@@ -50,8 +52,16 @@ public class PortalControlador {
     }
     
     @GetMapping("/login")
-    public String login() {
-
+    public String login(@RequestParam(required = false)String error, ModelMap modelo) {   //puede o no venir un error
+        if(error!=null){
+            modelo.put("error", "Usuario o contraseña invalidos!");
+        }
         return "login.html";
+    }
+    
+    @GetMapping("/inicio")
+    public String inicio() {
+
+        return "inicio.html";
     }
 }
