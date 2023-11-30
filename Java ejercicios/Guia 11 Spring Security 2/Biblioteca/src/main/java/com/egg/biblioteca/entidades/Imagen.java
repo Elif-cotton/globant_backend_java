@@ -16,12 +16,12 @@ public class Imagen {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
     
-    private String mime;
+    private String mime;   //asigna el formato archivo de la imagen
     
     private String nombre;
     
-    @Lob @Basic(fetch = FetchType.LAZY)
-    private byte[] contenido;
+    @Lob @Basic(fetch = FetchType.LAZY)  //puede ser pasado , tipo de carga, se carga solo cuando lo pidamos queries más livianas, solo lo trae al hacer un GET sobre el atributo
+    private byte[] contenido;    //forma en la que se guarda el contenido de la imagen
 
     public Imagen() {
     }

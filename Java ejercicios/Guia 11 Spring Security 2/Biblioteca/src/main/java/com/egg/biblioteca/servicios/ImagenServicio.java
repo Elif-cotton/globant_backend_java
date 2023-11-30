@@ -69,8 +69,8 @@ public class ImagenServicio {
     }
     
     @Transactional(readOnly = true)
-	public List<Imagen> listarTodos() {
-		return imagenRepositorio.findAll();
-	}
+    public List<Imagen> listarTodos() {
+	return imagenRepositorio.findAll();
+    }
     
 }

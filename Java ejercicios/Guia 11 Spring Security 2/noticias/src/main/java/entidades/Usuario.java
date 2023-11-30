@@ -1,7 +1,7 @@
 package entidades;
 
 import enumeraciones.Rol;
-import java.util.Date;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,11 +9,15 @@ import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 @Data                 //métodos getter & setter se crean de forma automática
 @NoArgsConstructor     //constructor vacío
-@AllArgsConstructor      //constructor todos los argumentos
+@AllArgsConstructor //constructor todos los argumentos
 @ToString
 @Table(name="usuarios")
 public class Usuario {
@@ -26,7 +30,7 @@ public class Usuario {
     private String nombre;
     private String password;
     private String email;
-    private Date fechaAlta;
+    private LocalDate fechaAlta;
     private Boolean activo;
 
     @Enumerated(EnumType.STRING)

@@ -6,7 +6,6 @@ import com.egg.biblioteca.entidades.Usuario;
 import com.egg.biblioteca.enumeraciones.Rol;
 import com.egg.biblioteca.excepciones.MiException;
 import com.egg.biblioteca.repositorios.UsuarioRepositorio;
-import static com.sun.jmx.snmp.SnmpStatusException.readOnly;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -74,7 +73,7 @@ public class UsuarioServicio implements UserDetailsService {
 
             usuario.setRol(Rol.USER);
             
-            String idImagen = null;
+            String idImagen = null;      //incializar
             
             if (usuario.getImagen() != null) {
                 idImagen = usuario.getImagen().getId();
