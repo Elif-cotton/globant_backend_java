@@ -112,7 +112,7 @@ public class UsuarioServicio implements UserDetailsService {
     		
     		if(usuario.getRol().equals(Rol.USER)) {
     			
-    		usuario.setRol(Rol.ADMIN);
+                    usuario.setRol(Rol.ADMIN);
     		
     		}else if(usuario.getRol().equals(Rol.ADMIN)) {
     			usuario.setRol(Rol.USER);

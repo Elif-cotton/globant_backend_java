@@ -1,7 +1,7 @@
 package controladores;
 
 import entidades.Noticia;
-import excepciones.MiExcepcion;
+import excepciones.MiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -25,7 +25,7 @@ public class NoticiaControlador {
 
     @PostMapping("/registro")
     public String crearNoticia(ModelMap modelo, @RequestParam("titulo") String titulo,
-                               @RequestParam("cuerpo") String cuerpo) throws MiExcepcion {
+                               @RequestParam("cuerpo") String cuerpo) throws MiException {
 
         noticiaServicio.crearNoticia(titulo, cuerpo);
 
@@ -53,7 +53,7 @@ public class NoticiaControlador {
     @PostMapping("/modificar/{id}")
     public String modificarNoticia(ModelMap modelo, @PathVariable String id,
                                    @RequestParam("titulo") String titulo,
-                                   @RequestParam("cuerpo") String cuerpo) throws MiExcepcion {
+                                   @RequestParam("cuerpo") String cuerpo) throws MiException {
 
         noticiaServicio.modificar(id, titulo, cuerpo);
 
@@ -61,7 +61,7 @@ public class NoticiaControlador {
     }
 
     @GetMapping("/baja/{id}")
-    public String bajaNoticia(ModelMap modelo, @PathVariable String id) throws MiExcepcion {
+    public String bajaNoticia(ModelMap modelo, @PathVariable String id) throws MiException {
 
         noticiaServicio.darDeBaja(id);
 
@@ -69,7 +69,7 @@ public class NoticiaControlador {
     }
 
     @GetMapping("/alta/{id}")
-    public String altaNoticia(ModelMap modelo, @PathVariable String id) throws MiExcepcion {
+    public String altaNoticia(ModelMap modelo, @PathVariable String id) throws MiException {
 
         noticiaServicio.darDeAlta(id);
 

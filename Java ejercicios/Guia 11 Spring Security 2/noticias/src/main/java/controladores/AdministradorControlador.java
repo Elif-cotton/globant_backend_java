@@ -7,14 +7,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import servicios.AdministradorServicio;
 import servicios.NoticiaServicio;
-import servicios.PeriodistaServicio;
 
 /**
  *
@@ -22,22 +23,20 @@ import servicios.PeriodistaServicio;
  */
 
 @Controller
-@RequestMapping("/reporter")
-public class PeriodistaControlador {
+@RequestMapping("/admin")
+public class AdministradorControlador {
     
     @Autowired
-    private PeriodistaServicio periodistaServicio;
+    private AdministradorServicio administradorServicio;
     
     @Autowired
     private NoticiaServicio noticiaServicio;
 
-    @PostMapping("/{reporterId}/crear-noticia")
-    public void crearNoticia(@PathVariable String periodistaId, @RequestParam String titulo,
-            @RequestParam String cuerpo) {
-        
-        periodistaServicio.crearNoticia(periodistaId, titulo, cuerpo);
+    @PostMapping("/crear-noticia")
+    public void crearNoticia(@RequestParam String titulo, @RequestParam String cuerpo) {
+        administradorServicio.crearNoticia(titulo, cuerpo);
     }
-
+    
     @GetMapping("/modificar/{noticiaId}")
     public String modificar(@PathVariable String noticiaId, ModelMap modelo) {
       
@@ -46,9 +45,9 @@ public class PeriodistaControlador {
         List<Noticia> noticias = noticiaServicio.listarNoticias();
         
         modelo.addAttribute("noticias", noticias);
-     
-        return "noticia_modificar.html";
+      
         
+        return "noticia_modificar.html";
     }
     
     @PostMapping("/modificar/{noticiaId}")
@@ -75,6 +74,31 @@ public class PeriodistaControlador {
         }
 
     }
-    
+
+
+//    @DeleteMapping("/eliminar-noticia/{noticiaId}")
+//    public void eliminarNoticia(@PathVariable String noticiaId) {
+//        
+//        administradorServicio.eliminarNoticia(noticiaId);
+//    }
+//
+//    @PutMapping("/baja-periodista/{periodistaId}")
+//    public void darDeAltaBajaPeriodista(@PathVariable String periodistaId) {
+//        
+//        administradorServicio.darDeBajaPeriodista(periodistaId);
+//    }
+//    
+//    @PutMapping("/alta-periodista/{periodistaId}")
+//    public void darDeAltaPeriodista(@PathVariable String periodistaId) {
+//        
+//        administradorServicio.darDeAltaPeriodista(periodistaId);
+//    }
+//
+//    @PutMapping("/asignar-sueldo/{periodistaId}")
+//    public void asignarSueldoMensual(@PathVariable String periodistaId, @RequestParam int sueldo) {
+//        
+//        administradorServicio.asignarSueldoMensual(periodistaId, sueldo);
+//    }
+
     
 }

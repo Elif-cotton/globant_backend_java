@@ -1,7 +1,7 @@
 package servicios;
 
 import entidades.Noticia;
-import excepciones.MiExcepcion;
+import excepciones.MiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import repositorios.NoticiaRepositorio;
@@ -17,7 +17,7 @@ public class NoticiaServicio {
     private NoticiaRepositorio noticiaRepositorio;
 
     @Transactional
-    public void crearNoticia(String titulo, String cuerpo) throws MiExcepcion {
+    public void crearNoticia(String titulo, String cuerpo) throws MiException {
 
         validarDatos(titulo, cuerpo);
 
@@ -29,7 +29,8 @@ public class NoticiaServicio {
         noticiaRepositorio.save(noticia);
     }
 
-    public void modificar(String id, String titulo, String cuerpo) throws MiExcepcion {
+    @Transactional 
+    public void modificar(String id, String titulo, String cuerpo) throws MiException {
 
         validarDatos(titulo, cuerpo);
 
@@ -44,12 +45,12 @@ public class NoticiaServicio {
         }
     }
 
-    public void validarDatos(String titulo, String cuerpo) throws MiExcepcion {
+    public void validarDatos(String titulo, String cuerpo) throws MiException {
         if (titulo == null || titulo.isEmpty()) {
-            throw new MiExcepcion("El titulo no puede estar vacío o ser nulo");
+            throw new MiException("El titulo no puede estar vacío o ser nulo");
         }
         if (cuerpo == null || cuerpo.isEmpty()) {
-            throw new MiExcepcion("El cuerpo no puede estar vacío o ser nulo");
+            throw new MiException("El cuerpo no puede estar vacío o ser nulo");
         }
     }
 
@@ -83,4 +84,6 @@ public class NoticiaServicio {
     public List<Noticia> listarNoticias() {
         return noticiaRepositorio.findAll();
     }
+    
+  
 }

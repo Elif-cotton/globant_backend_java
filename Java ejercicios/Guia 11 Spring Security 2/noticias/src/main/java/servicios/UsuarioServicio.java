@@ -2,7 +2,7 @@ package servicios;
 
 import entidades.Usuario;
 import enumeraciones.Rol;
-import excepciones.MiExcepcion;
+import excepciones.MiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -47,7 +47,7 @@ public class UsuarioServicio implements UserDetailsService {
 
     }
 
-    public void registrar(String nombre, String email, String password, String password2) throws MiExcepcion {
+    public void registrar(String nombre, String email, String password, String password2) throws MiException {
         validar(nombre, email, password, password2);
 
         Usuario usuario = new Usuario();
@@ -61,18 +61,18 @@ public class UsuarioServicio implements UserDetailsService {
         usuarioRespositorio.save(usuario);
     }
 
-    public void validar(String nombre, String email, String password, String password2) throws MiExcepcion {
+    public void validar(String nombre, String email, String password, String password2) throws MiException {
         if (nombre == null || nombre.isEmpty()) {
-            throw new MiExcepcion("El nombre no puede estar vacío");
+            throw new MiException("El nombre no puede estar vacío");
         }
         if (email == null || email.isEmpty()) {
-            throw new MiExcepcion("El email no puede estar vacío");
+            throw new MiException("El email no puede estar vacío");
         }
         if (password == null || password.isEmpty() || password.length() <= 5) {
-            throw new MiExcepcion("La contraseña no puede estar vacía ni tener menos de 5 caracteres");
+            throw new MiException("La contraseña no puede estar vacía ni tener menos de 5 caracteres");
         }
         if (!password.equals(password2)) {
-            throw new MiExcepcion("Las contraseñas deben ser iguales");
+            throw new MiException("Las contraseñas deben ser iguales");
         }
     }
 

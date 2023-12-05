@@ -25,16 +25,16 @@ public class Usuario {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String id;
+    protected String id;
 
-    private String nombre;
-    private String password;
-    private String email;
-    private LocalDate fechaAlta;
-    private Boolean activo;
+    protected String nombre;
+    protected String password;
+    protected String email;
+    protected LocalDate fechaAlta;
+    protected Boolean activo;
 
     @Enumerated(EnumType.STRING)
-    private Rol rol;
+    protected Rol rol;
 
 
 }

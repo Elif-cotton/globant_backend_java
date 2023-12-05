@@ -1,6 +1,6 @@
 package controladores;
 
-import excepciones.MiExcepcion;
+import excepciones.MiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -31,7 +31,7 @@ public class PortalControlador {
     @PostMapping("/registro")
     public String registro(@RequestParam String nombre, @RequestParam String email,
                            @RequestParam String password, String password2,
-                           ModelMap modelo) throws MiExcepcion {
+                           ModelMap modelo) throws MiException {
 
         try {
 
@@ -40,7 +40,7 @@ public class PortalControlador {
             modelo.put("exito", "Usuario registrado");
             return "index.html";
 
-        } catch (MiExcepcion e) {
+        } catch (MiException e) {
             modelo.put("error", e.getMessage());
             return "registro.html";
         }

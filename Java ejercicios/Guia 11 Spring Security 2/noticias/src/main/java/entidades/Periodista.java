@@ -1,4 +1,3 @@
-
 package entidades;
 
 import java.io.Serializable;
@@ -7,7 +6,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,7 +21,6 @@ import lombok.ToString;
 @NoArgsConstructor     //constructor vacío
 @AllArgsConstructor      //constructor todos los argumentos
 @ToString
-@Table(name="periodistas")
 @DiscriminatorValue("PERIODISTA")
 public class Periodista extends Usuario implements Serializable{
         

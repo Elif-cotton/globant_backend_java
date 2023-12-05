@@ -1,6 +1,7 @@
 
 package servicios;
 
+import entidades.Administrador;
 import entidades.Noticia;
 import entidades.Periodista;
 import enumeraciones.Rol;
@@ -19,6 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import repositorios.AdministradorRepositorio;
 import repositorios.NoticiaRepositorio;
 import repositorios.PeriodistaRepositorio;
 
@@ -28,7 +30,7 @@ import repositorios.PeriodistaRepositorio;
  */
 
 @Service
-public class PeriodistaServicio implements UserDetailsService{
+public class AdministradorServicio implements UserDetailsService{
     
     @Autowired
     private NoticiaRepositorio noticiaRepositorio; 
@@ -36,40 +38,43 @@ public class PeriodistaServicio implements UserDetailsService{
     @Autowired
     private PeriodistaRepositorio periodistaRepositorio;
     
+    @Autowired
+    private AdministradorRepositorio administradorRepositorio;
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         
-        Periodista periodista = periodistaRepositorio.buscarPorEmail(email); 
+        Administrador administrador = administradorRepositorio.buscarPorEmail(email); 
         
-        if (periodista != null) {
+        if (administrador != null) {
             List<GrantedAuthority> permisos = new ArrayList<>();
-            GrantedAuthority p = new SimpleGrantedAuthority("ROLE_" + periodista.getRol().toString());
+            GrantedAuthority p = new SimpleGrantedAuthority("ROLE_" + administrador.getRol().toString());
             permisos.add(p);
 
             ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
 
             HttpSession session = attr.getRequest().getSession(true);
 
-            session.setAttribute("periodista", periodista);
+            session.setAttribute("administrador", administrador);
 
-            return new User(periodista.getEmail(), periodista.getPassword(), permisos);
+            return new User(administrador.getEmail(), administrador.getPassword(), permisos);
         } else {
             return null;
         }
     }
     
-    public void registrar(String nombre, String email, String password, String password2) throws MiException {
+     public void registrar(String nombre, String email, String password, String password2) throws MiException {
         validar(nombre, email, password, password2);
 
-        Periodista periodista = new Periodista();
+        Administrador administrador = new Administrador();
 
-        periodista.setNombre(nombre);
-        periodista.setEmail(email);
-        periodista.setPassword(new BCryptPasswordEncoder().encode(password));
+        administrador.setNombre(nombre);
+        administrador.setEmail(email);
+        administrador.setPassword(new BCryptPasswordEncoder().encode(password));
 
-        periodista.setRol(Rol.REPORTER);
+        administrador.setRol(Rol.ADMIN);
 
-        periodistaRepositorio.save(periodista);
+        administradorRepositorio.save(administrador);
     }
 
     public void validar(String nombre, String email, String password, String password2) throws MiException {
@@ -86,39 +91,53 @@ public class PeriodistaServicio implements UserDetailsService{
             throw new MiException("Las contraseñas deben ser iguales");
         }
     }
-
     
-    public void crearNoticia(String periodistaId, String titulo, String cuerpo) {
-        
-        Periodista periodista = periodistaRepositorio.findById(periodistaId)
-                .orElseThrow(() -> new IllegalArgumentException("Periodista no encontrado"));
-
-        if (periodista.getActivo()) {
-            Noticia nuevaNoticia = new Noticia();
-            nuevaNoticia.setTitulo(titulo);
-            nuevaNoticia.setCuerpo(cuerpo);
-            nuevaNoticia.setAlta(true);
-            
-            periodista.getMisNoticias().add(nuevaNoticia);
-        
-            noticiaRepositorio.save(nuevaNoticia);
-        } else {
-            throw new IllegalStateException("El periodista no está activo. No puede crear noticias.");
-        }
+     public void crearNoticia(String titulo, String cuerpo) {
+        Noticia nuevaNoticia = new Noticia();
+        nuevaNoticia.setTitulo(titulo);
+        nuevaNoticia.setCuerpo(cuerpo);
+        nuevaNoticia.setAlta(true); // Por defecto, la noticia que se crea, esta en alta
+        noticiaRepositorio.save(nuevaNoticia);
     }
-    
-    
+
     public void modificarNoticia(String noticiaId, String nuevoTitulo, String nuevoCuerpo) {
-        
         Noticia noticia = noticiaRepositorio.findById(noticiaId)
                 .orElseThrow(() -> new IllegalArgumentException("Noticia no encontrada"));
 
         noticia.setTitulo(nuevoTitulo);
         noticia.setCuerpo(nuevoCuerpo);
-        
         noticiaRepositorio.save(noticia);
     }
 
+    public void eliminarNoticia(String noticiaId) {
+        Noticia noticia = noticiaRepositorio.findById(noticiaId)
+                .orElseThrow(() -> new IllegalArgumentException("Noticia no encontrada"));
+
+        noticiaRepositorio.delete(noticia);
+    }
+
+    public void darDeAltaPeriodista(String periodistaId) {
+        Periodista periodista = periodistaRepositorio.findById(periodistaId)
+                .orElseThrow(() -> new IllegalArgumentException("Periodista no encontrado"));
+
+        periodista.setActivo(!periodista.getActivo());
+        periodistaRepositorio.save(periodista);
+    }
     
+    public void darDeBajaPeriodista(String periodistaId) {
+        Periodista periodista = periodistaRepositorio.findById(periodistaId)
+                .orElseThrow(() -> new IllegalArgumentException("Periodista no encontrado"));
+
+        periodista.setActivo(false);
+        periodistaRepositorio.save(periodista);
+    }
+
+    public void asignarSueldoMensual(String periodistaId, int sueldo) {
+        Periodista periodista = periodistaRepositorio.findById(periodistaId)
+                .orElseThrow(() -> new IllegalArgumentException("Periodista no encontrado"));
+
+        periodista.setSueldoMensual(sueldo);
+        periodistaRepositorio.save(periodista);
+    }
     
 }
